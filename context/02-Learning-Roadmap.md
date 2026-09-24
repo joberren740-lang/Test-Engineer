@@ -1,14 +1,17 @@
 # Learning Roadmap
 
-> Last Updated: 2026-09-01
+> Last Updated: 2026-09-22
 > Purpose: 记录测试开发学习路线、阶段目标、优先级和重要决策。
 
 ## 1. Current Strategy
 
-- 接口测试基础、Pytest 工程化和 Git 阶段 1 已完成，当前主线为 Pytest → Allure → Jenkins 自动化测试流水线。
+- 接口测试基础、Pytest 工程化和 Git 阶段 1 已完成；求职前能力链目标为 `requests + Selenium + Appium + Pytest`。
 - Pytest 高级工程化子阶段已完成生命周期、Hook、核心对象和项目内部 Plugin 实践；当前只保留 CI 所需的执行、参数、结果采集和报告能力，Plugin 深入开发暂缓。
-- 以真实 Python 自动化测试框架作为 CI/CD 工程实践对象；独立 Demo 仅用于 Jenkins/Groovy 语法实验。
-- CI 主线暂时停在框架接口整合点：先独立完成测试框架目录与多层运行入口重构，再返回 Jenkins 动态调度。
+- 后续 Jenkins CI/CD 工程实践以 IndianTest 作为真实自动化测试框架；独立 Demo 仅用于 Jenkins/Groovy 语法实验。
+- IndianTest 1.0.0 已完成，CI/CD 学习恢复，并以该真实项目继续 Pipeline 工程化实践。
+- Appium 基础学习继续推进；当前教程练习统一在独立的 AppiumDemo 项目中完成。
+- Appium 采用分阶段递进学习：每个小阶段完成讲解、练习与验收，并经用户确认掌握后再进入下一阶段。
+- 当前 Appium专项聊天只学习 Appium本身的功能、命令与运行机制；UI自动化框架构建、Pytest集成和工程分层由独立侧边聊天承担。
 - Groovy 只学习理解 Jenkins Pipeline DSL 所需内容，不发展为长期技术方向。
 - Git 阶段 2 暂不抢占 CI/CD 主线；FastAPI 服务级 Mock 保持独立扩展分支。
 
@@ -29,12 +32,14 @@
 
 - Git 阶段 1：`阶段完成`。
 - Jenkins 基础 Pipeline 与 pytest 初次接入：`阶段完成`。
-- CI/CD 总体：`学习中`，当前进入真实项目 Pipeline 工程化优化。
+- CI/CD 总体：`学习中`，基于 IndianTest 1.0.0 恢复真实项目 Pipeline 工程化优化。
 - Docker 在基础流水线形成后推进。
 
 ### Stage 4 — Project Practice
 
-- 持续完善接口自动化项目及其 CI 流水线。
+- 推进 IndianTest 1.0，并在其上线后承接 CI/CD 工程实践。
+- AppiumDemo 定位为当前 Appium 专项学习项目，集中承载教程练习、配置和运行验证。
+- BobTest 计划在 Appium 学习完成后演进为传统 UI 自动化框架：保留底层能力、Pages、插件和测试代码，移除 API 部分并接入 Appium。
 - ApiClient 插件化重构作为独立项目实践分支，不打断 Pytest 知识主线。
 - 使用 FastAPI 构建可控 Mock 服务并接入测试框架。
 
@@ -47,16 +52,15 @@
 
 ### P0 — Highest Priority
 
-1. 完成真实测试框架目录与多层运行入口重构，并通过本地执行验证。
-2. 基于稳定运行入口完成 requirements 场景化分层。
-3. 让 Jenkins 调用稳定入口并实现测试类型、环境等动态调度。
-4. 继续优化 workspace、自动触发、Allure 报告发布与结果反馈闭环。
+1. 将 IndianTest 1.0.0 接入 Jenkins，并完成 Python 解释器检测与版本约束。
+2. 让 Jenkins 通过统一 `run.py` 入口稳定执行真实测试框架。
+3. 完成自动触发、报告发布与结果反馈闭环。
 
 ### P1 — Important
 
-1. 将当前接口自动化框架的请求记录、日志、异常和环境信息接入 Allure。
-2. 结合流水线完善 `pytest.ini`、marker、参数和报告规范。
-3. 按需实践 Fixture 迁移至 Plugin、Recorder 与固定 Fixture 名称解耦。
+1. 完成 IndianTest 1.0 上线。
+2. 在 AppiumDemo 中完成 Appium 配套练习并保留可运行证据。
+3. IndianTest 1.0 上线后恢复 CI/CD 学习与工程化实践。
 
 ### P2 — Later
 
@@ -83,6 +87,7 @@
 
 - 采用 `TestCase → Service → ApiClient → requests.Session → Backend` 分层。
 - ApiClient 负责 HTTP 通信；Service 负责业务封装；断言由 TestCase 负责。
+- Postman 作为面试需求驱动的工具学习专项：以已有 Apifox 经验切入基础使用，再进入进阶学习；学习完成后保留专项聊天用于后续答疑。
 
 ### Mock / Backend
 
@@ -92,10 +97,18 @@
 ### Jenkins / CI/CD
 
 - 已完成基础 Pipeline、参数化构建、Credential 注入、Gitee checkout、pytest 执行及 JUnit/HTML 报告发布。
-- 当前路线：真实框架 CI 接入 → Pipeline 工程化优化 → 自动触发与结果反馈 → 完整 CI 流程。
+- 当前状态为 `学习中`；IndianTest 1.0.0 已完成，恢复真实项目 CI 实践。
+- 当前路线：IndianTest 真实框架 CI 接入 → Pipeline 工程化优化 → 自动触发与结果反馈 → 完整 CI 流程。
 - Groovy 定位为 Pipeline DSL 辅助能力。
-- Python CI 环境控制已达 `基础完成`：Jenkins 已校验指定 Python、创建 `.venv`、安装固定 CI 依赖并从虚拟环境运行 pytest。
+- Python package 隔离与 CI 固定依赖安装已达 `基础完成`；Pipeline 中解释器来源检测和 Python 版本校验仍需实践。
 - 后续目标采用多层运行入口 + Jenkins 动态调度；具体目录、接口和参数仍待框架重构专项验证。
+
+### UI / Mobile Testing
+
+- 求职前目标技术链为 `requests + Selenium + Appium + Pytest`。
+- Selenium 已有学习或使用基础；Appium 当前为 `学习中`，至少完成基础部分后再开始求职。
+- 当前 Appium 教程练习在独立的 AppiumDemo 项目中完成，并以实际运行结果作为状态提升依据。
+- Appium 基础学习完成后，再将能力接入 BobTest 并实施其 UI 专项框架重构。
 
 ### Allure
 
@@ -141,12 +154,23 @@
 | 2026-09-01 | 用户已确认 | CI 目标采用多层运行入口，并由 Jenkins 按测试类型和环境动态调度 | 分离框架执行职责与 CI 编排职责 |
 | 2026-09-01 | 用户已确认 | 在继续 Jenkins 多入口改造前，先独立完成测试框架目录与运行入口重构 | 避免 Pipeline 依赖尚不稳定的框架接口 |
 | 2026-09-01 | 用户已确认 | requirements 分层应基于实际运行入口和测试场景推进 | 避免脱离执行场景进行形式化拆分 |
+| 2026-09-02 | 用户已确认 | 后续 Jenkins 学习基于 IndianTest 项目 | 使用正在重构的真实统一测试框架承接 CI 工程化实践 |
+| 2026-09-02 | 用户已确认 | 开启 Appium 测试框架学习专项，练习部分在 BobTest 项目中完成 | 将知识学习与真实工程实践结合，并保持工程仓库独立维护 |
+| 2026-09-02 | 用户已确认 | BobTest 定位为专用于练习的 Demo 项目，不作为求职主项目 | 区分学习练习载体与真实工程项目 |
+| 2026-09-02 | 用户已确认 | Appium 学习与 IndianTest 1.0 建设并线推进，求职前至少掌握 Appium 基础 | 补齐 requests、Selenium、Appium、Pytest 技术链 |
+| 2026-09-02 | 用户已确认 | CI/CD 学习等待 IndianTest 1.0 上线后恢复 | 使用已上线的真实项目承接 CI 工程化实践 |
+| 2026-09-02 | 用户已确认 | Appium 教程按小阶段递进，确认掌握后再进入下一阶段 | 保证学习状态以理解和实践证据为依据 |
+| 2026-09-07 | 用户已确认 | IndianTest 1.0.0 完成，恢复 Jenkins 学习 | CI/CD 恢复条件已满足，开始真实框架集成 |
+| 2026-09-08 | 用户已确认 | 当前 Appium 练习集中在独立的 AppiumDemo 项目 | 将教程实验与后续框架实践分离 |
+| 2026-09-08 | 用户已确认 | Appium 学习完成后，将 BobTest 重构为底层能力、Pages、插件与测试代码组成的 UI 自动化框架，移除 API 部分并加入 Appium | 明确 BobTest 的后续项目定位与实施时机 |
+| 2026-09-10 | 用户已确认 | 当前聊天聚焦 Appium本身功能学习，UI自动化框架构建转交独立侧边聊天 | 分离工具能力学习与框架工程实践，避免两条内容混杂 |
+| 2026-09-21 | 用户已确认 | 先完成 Appium 专项中尚未完成的功能学习与验收，再开始 ECMobile 项目实践 | 先补齐工具能力闭环，再用真实电商项目承接综合实践 |
 
 ## 7. Next Milestone
 
-- 完成测试框架目录与多层运行入口重构，确保现有 API 测试、Plugin、Fixture 和 Allure 能力未因迁移失效。
-- 根据已验证入口完成 requirements 场景化分层，并重新创建环境验证。
-- 返回 CI 主线，让 Jenkins 动态调用稳定入口，再继续 workspace、自动触发和结果反馈优化。
+- 完成 IndianTest Jenkins Environment Check 与 Python 版本校验。
+- 让 Jenkins 使用锁定依赖并通过统一 `run.py` 入口执行测试。
+- 随后推进报告发布、自动触发与结果反馈。
 
 ## 8. AI Suggestions Not Yet Adopted
 
